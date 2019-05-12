@@ -1,0 +1,33 @@
+CREATE TABLE SINGER(
+	id INT NOT NULL AUTO_INCREMENT,
+	first_name VARCHAR(60) NOT NULL,
+	last_name VARCHAR(60) NOT NULL,
+	birth_date DATE,
+	version INT NOT NULL DEFAULT 0,
+        UNIQUE UQ_SINGER_1 (first_name, last_name),
+        PRIMARY KEY (id)
+);
+
+CREATE TABLE ALBUM(
+	id INT NOT NULL AUTO_INCREMENT,
+	singer_id INT NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	release_date DATE,
+	version INT NOT NULL DEFAULT 0,
+        UNIQUE UQ_SINGER_ALBUM_1 (singer_id, title),
+        PRIMARY KEY (id),
+        CONSTRAINT FK_ALBUM_SINGER FOREIGN KEY (singer_id) REFERENCES SINGER (id)
+);
+
+CREATE TABLE INSTRUMENT(
+	instrument_id VARCHAR(20) NOT NULL,
+        PRIMARY KEY (instrument_id)
+);
+
+CREATE TABLE SINGER_INSTRUMENT(
+	singer_id INT NOT NULL,
+	instrument_id VARCHAR(20) NOT NULL,
+        PRIMARY KEY (singer_id, instrument_id),
+        CONSTRAINT FK_SINGER_INSTRUMENT_1 FOREIGN KEY (singer_id) REFERENCES SINGER (id) ON DELETE CASCADE,
+        CONSTRAINT FK_SINGER_INSTRUMENT_2 FOREIGN KEY (instrument_id) REFERENCES INSTRUMENT (instrument_id)
+);
